@@ -26,7 +26,6 @@
     <p class="text-gray-400 text-sm">Elija un seguro:</p>
     <div class="flex gap-1">
       <div
-        
         class="flex flex-col border-2 p-1 rounded-sm cursor-pointer hover:bg-gray-700"
         [class.border-blue-600]="!selectedSeguro()"
         (click)="selectSeguro(null)"
@@ -48,16 +47,94 @@
   </div>
 
   <div class="p-1 rounded-sm border border-gray-500">
+    <p class="text-gray-400 text-sm">Plan de financiamiento:</p>
+    <div class="flex flex-col gap-1">
+      <div
+        class="flex flex-col border-2 p-1 rounded-sm cursor-pointer hover:bg-gray-700"
+        [class.border-blue-600]="!selectedPlazo()"
+        (click)="selectPlazo(null)"
+      >
+        <span>Contado</span>
+      </div>
+      @for (plazo of plazoMeses; track $index) {
+      <div
+        class="flex flex-col border-2 p-1 rounded-sm cursor-pointer hover:bg-gray-700"
+        [class.border-blue-600]="plazo === selectedPlazo()"
+        (click)="selectPlazo(plazo)"
+      >
+        <span>{{ plazo }} meses</span>
+      </div>
+      }
+    </div>
+  </div>
+
+  <div class="p-1 rounded-sm border border-gray-500">
     <!-- Costo desglosado (precio producto sin iva, con iva, gastos administrativos, costo de accesorios, seguro de vehículo) -->
     <p class="text-gray-400 text-sm">Precio desglosado:</p>
     <ul class="list-disc list-inside">
       <li>Precio sin IVA: ${{ selectedMoto()?.precio | number : '1.0-0' }}</li>
       <li>IVA (16%): ${{ iva() | number : '1.0-0' }}</li>
       <li>Gastos administrativos: ${{ gastosAdministrativos() | number : '1.0-0' }}</li>
-      <!--             <li>Costo de accesorios: ${{ costoAccesorios() | number : '1.0-0' }}</li>-->
-            <li>Seguro de vehículo: ${{ selectedSeguro()?.precio | number : '1.0-0' }}</li>
+      <li>Costo de accesorios: ${{ costoAccesorios() | number : '1.0-0' }}</li>
+      <li>Seguro de vehículo: ${{ selectedSeguro()?.precio | number : '1.0-0' }}</li>
     </ul>
 
-    <p class="mt-2 text-white font-semibold text-xl"> Costo total: ${{ costoTotal() }}</p>
+    @if (selectedPlazo()) {
+    <input
+      [value]="montoEngancheMinimo()"
+      [min]="montoEngancheMinimo()"
+      [max]="costoTotal()"
+      type="number"
+      placeholder="Enganche Minimo {{ montoEngancheMinimo() | number : '1.0-0' }}"
+      class="w-full p-1 rounded-sm bg-gray-700 border border-gray-600 text-white mt-2"
+      (input)="selectEnganche($event)"
+    />
+    } @if (montoEnganche() < montoEngancheMinimo()) {
+    <p class="mt-2 text-red-500">
+      El enganche mínimo debe ser de ${{ montoEngancheMinimo() | number : '1.0-0' }}
+    </p>
+
+    }
+
+    <p class="mt-2 text-white font-semibold">
+      Cuota mensual: ${{ mensualidad() | number : '1.0-0' }}
+    </p>
+    <p class="mt-2 text-white font-semibold text-xl">Costo total: ${{ costoTotal() }}</p>
+  </div>
+
+  <div class="p-1 rounded-sm border border-gray-500">
+    <p class="text-gray-400 text-sm">Ingresa tus datos:</p>
+    <div class="flex flex-col gap-1">
+      <input
+        type="text"
+        (input)="setNomnbre($event)"
+        placeholder="Nombre completo"
+        class="w-full p-1 rounded-sm bg-gray-700 border border-gray-600 text-white"
+      />
+      <input
+        type="email"
+        (input)="setEmail($event)"
+        placeholder="Correo electrónico"
+        class="w-full p-1 rounded-sm bg-gray-700 border border-gray-600 text-white"
+      />
+      <input
+        type="tel"
+        (input)="setTelefono($event)"
+        placeholder="Teléfono"
+        class="w-full p-1 rounded-sm bg-gray-700 border border-gray-600 text-white"
+      />
+    </div>
+  </div>
+
+  <div class="p-1 rounded-sm border border-gray-500">
+    <button
+      matButton
+      color="primary"
+      class="w-full"
+      [disabled]="selectedPlazo() && montoEnganche() < montoEngancheMinimo()"
+      (click)="finalizarCotizacion()"
+    >
+      Finalizar Cotización
+    </button>
   </div>
 </div>

@@ -1,5 +1,5 @@
 import { computed, Injectable, signal } from '@angular/core';
-import { Accesorio, Moto, Seguro } from '../../interfaces/Moto';
+import { Accesorio, CotizacionDto, ICotizacion, Moto, Seguro } from '../../interfaces/Moto';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 
@@ -10,6 +10,15 @@ export class ListadoService {
   // voy aponer la api direct
   private readonly API_URL = environment.apiUrl;
  // Estado interno USANDo Signals en lufgar de BehaviorSubject para simplicidad
+
+
+ //cotzaciones 
+ createCotizacion(CotizacionDto: CotizacionDto){
+    return this.http.post<ICotizacion>(`${this.API_URL}/cotizaciones`, CotizacionDto);
+
+ }
+
+
 
  //Motos signal
   private motos = signal<Moto[]>([]);
@@ -22,7 +31,7 @@ export class ListadoService {
   // Accesorios signal
   private accesorios = signal<Accesorio[]>([]);
   private loadingAccesorios = signal(false);
-  private selectedAccesorios = signal<Accesorio[] | null>(null);
+  private selectedAccesorios = signal<Accesorio[]>([]);
   accesoriosCount = computed(() => this.accesorios().length);
 
 
@@ -99,15 +108,11 @@ export class ListadoService {
   }
 
 
-  selectAccesorio(accesorios: Accesorio) {
-    this.selectedAccesorios.update(current => {
-      if (!current) {
-        return [accesorios];
-      }
-      if (!current.includes(accesorios)) {
-        current.push(accesorios);
-      }
-      return current;
-    });
+selectAccesorio(accesorio: Accesorio) {
+    this.selectedAccesorios.update(list => [...list, accesorio]);
+  }
+
+  quitarAccesorio(accesorio: Accesorio) {
+    this.selectedAccesorios.update(list => list.filter(a => a.id !== accesorio.id));
   }
 }

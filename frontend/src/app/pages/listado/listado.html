@@ -3,16 +3,60 @@
     <app-detalles-cotizacion></app-detalles-cotizacion>
   </mat-drawer>
   <mat-drawer-content>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
-      @for (moto of listadoService.getMotos()(); track $index) {
-      <div class="rounded-lg border border-gray-200 p-4 flex flex-col justify-between h-40 hover:shadow-md transition-shadow shadow-white">
-        <div>
-          <h2 class="text-lg font-semibold">{{ moto.modelo }} - {{ moto.version }}</h2>
-          <p class="text-blue-600">Precio: ${{ moto.precio | number : '1.0-0' }}</p>
-        </div>
-        <button matButton color="primary" (click)="selectMoto(moto, drawer)">Ver Cotización</button>
-      </div>
-      }
+    <div class="p-4 border-b border-gray-200">
+      <mat-button-toggle-group [value]="modeSignal()" (change)="modeSignal.set($event.value)" name="fontStyle" aria-label="Font Style">
+        <mat-button-toggle value="motos">Motocicletas</mat-button-toggle>
+        <mat-button-toggle value="accesorios">Accesorios </mat-button-toggle>
+      </mat-button-toggle-group>
     </div>
+
+     @if (modeSignal() === 'motos') {
+      <div class="p-4">
+      <h1 class="text-xl font-semibold">Listado de Motos Disponibles</h1>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        @for (moto of listadoService.getMotos()(); track $index) {
+        <div
+          class="rounded-lg border border-gray-200 p-4 flex flex-col justify-between h-40 hover:shadow-md transition-shadow shadow-white"
+        >
+          <div>
+            <h2 class="text-lg font-semibold">{{ moto.modelo }} - {{ moto.version }}</h2>
+            <p class="text-blue-600">Precio: ${{ moto.precio | number : '1.0-0' }}</p>
+          </div>
+          <button matButton color="primary" (click)="selectMoto(moto, drawer)">
+            Ver Cotización
+          </button>
+        </div>
+        }
+      </div>
+    </div>
+     }@else {
+       <div class="p-4">
+       <h1 class="text-xl font-semibold">Listado de Accesorios Disponibles</h1>
+       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+         @for (accesorio of listadoService.getAccesorios()(); track $index) {
+         <div
+           class="rounded-lg border border-gray-200 p-4 flex flex-col justify-between h-40 hover:shadow-md transition-shadow shadow-white"
+         >
+           <div>
+             <h2 class="text-lg font-semibold">{{ accesorio.nombre }}</h2>
+             <p class="text-blue-600">Precio: ${{ accesorio.precio | number : '1.0-0' }}</p>
+           </div>
+            @if (!isSelected(accesorio)) {
+              <button matButton color="primary" (click)="selectAccesorio(accesorio, drawer)">
+             Agregar Accesorio
+           </button>
+            }@else {
+              <button matButton color="warn" (click)="quitarAccesorio(accesorio, drawer)">
+                <mat-icon>remove_circle</mat-icon>
+             Quitar Accesorio
+            </button>
+            }
+         </div>
+         }
+       </div>
+       </div>
+
+
+      }
   </mat-drawer-content>
 </mat-drawer-container>
