@@ -1,0 +1,61 @@
+<div class="flex flex-col p-3 gap-1">
+  Detalles de la Cotización
+
+  <div class="p-1 rounded-sm border border-gray-500">
+    <p class="text-gray-400 text-sm">Producto seleccionado:</p>
+    <h2 class="text-lg font-semibold">
+      {{ selectedMoto()?.modelo }} - {{ selectedMoto()?.version }}
+    </h2>
+    <p class="text-blue-600">Precio base: ${{ selectedMoto()?.precio | number : '1.0-0' }}</p>
+  </div>
+
+  <div class="p-1 rounded-sm border border-gray-500">
+    <p class="text-gray-400 text-sm">Accesorios seleccionados:</p>
+    @for (accesorio of selectedAccesorios(); track $index) {
+    <div class="flex justify-between">
+      <span>{{ accesorio.nombre }}</span>
+      <span class="text-blue-600">${{ accesorio.precio | number : '1.0-0' }}</span>
+    </div>
+    }@empty {
+    <div class="text-gray-400 text-xs">No hay accesorios agregados</div>
+    }
+  </div>
+
+  <!-- Seguros listado -->
+  <div class="p-1 rounded-sm border border-gray-500">
+    <p class="text-gray-400 text-sm">Elija un seguro:</p>
+    <div class="flex gap-1">
+      <div
+        
+        class="flex flex-col border-2 p-1 rounded-sm cursor-pointer hover:bg-gray-700"
+        [class.border-blue-600]="!selectedSeguro()"
+        (click)="selectSeguro(null)"
+      >
+        <span>Sin seguro</span>
+        <span class="text-blue-600">$0</span>
+      </div>
+      @for (seguro of listadoService.getSeguros()(); track $index) {
+      <div
+        class="flex flex-col border-2 p-1 rounded-sm cursor-pointer hover:bg-gray-700"
+        [class.border-blue-600]="seguro.id === selectedSeguro()?.id"
+        (click)="selectSeguro(seguro)"
+      >
+        <span>{{ seguro.nombre }}</span>
+        <span class="text-blue-600">${{ seguro.precio | number : '1.0-0' }}</span>
+      </div>
+      }
+    </div>
+  </div>
+
+  <div class="p-1 rounded-sm border border-gray-500">
+    <!-- Costo desglosado (precio producto sin iva, con iva, gastos administrativos, costo de accesorios, seguro de vehículo) -->
+    <p class="text-gray-400 text-sm">Precio desglosado:</p>
+    <ul class="list-disc list-inside">
+      <li>Precio sin IVA: ${{ selectedMoto()?.precio | number : '1.0-0' }}</li>
+      <li>IVA (16%): ${{ iva() | number : '1.0-0' }}</li>
+      <li>Gastos administrativos: ${{ gastosAdministrativos() | number : '1.0-0' }}</li>
+      <!--             <li>Costo de accesorios: ${{ costoAccesorios() | number : '1.0-0' }}</li>
+            <li>Seguro de vehículo: ${{ seguroVehiculo() | number : '1.0-0' }}</li> -->
+    </ul>
+  </div>
+</div>
