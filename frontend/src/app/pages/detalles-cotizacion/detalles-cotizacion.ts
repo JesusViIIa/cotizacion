@@ -28,7 +28,11 @@ export class DetallesCotizacion {
     return accesorios ? accesorios.reduce((total, a) => total + a.precio, 0) : 0;
   });
 
-
+  costoTotal = computed(() => {
+    const moto = this.selectedMoto();
+    const seguro = this.selectedSeguro();
+    return moto ? moto.precio + this.iva() + this.gastosAdministrativos() + this.costoAccesorios() + (seguro ? seguro.precio : 0) : 0;
+  });
 
   constructor(public listadoService: ListadoService) {
     listadoService.loadSeguros();

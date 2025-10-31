@@ -54,8 +54,10 @@
       <li>Precio sin IVA: ${{ selectedMoto()?.precio | number : '1.0-0' }}</li>
       <li>IVA (16%): ${{ iva() | number : '1.0-0' }}</li>
       <li>Gastos administrativos: ${{ gastosAdministrativos() | number : '1.0-0' }}</li>
-      <!--             <li>Costo de accesorios: ${{ costoAccesorios() | number : '1.0-0' }}</li>
-            <li>Seguro de vehículo: ${{ seguroVehiculo() | number : '1.0-0' }}</li> -->
+      <!--             <li>Costo de accesorios: ${{ costoAccesorios() | number : '1.0-0' }}</li>-->
+            <li>Seguro de vehículo: ${{ selectedSeguro()?.precio | number : '1.0-0' }}</li>
     </ul>
+
+    <p class="mt-2 text-white font-semibold text-xl"> Costo total: ${{ costoTotal() }}</p>
   </div>
 </div>

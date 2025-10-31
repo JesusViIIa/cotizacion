@@ -5,7 +5,7 @@
   <mat-drawer-content>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
       @for (moto of listadoService.getMotos()(); track $index) {
-      <div class="bg-gray-600 rounded-lg shadow-md border border-gray-200 p-4 flex flex-col justify-between h-40">
+      <div class="rounded-lg border border-gray-200 p-4 flex flex-col justify-between h-40 hover:shadow-md transition-shadow shadow-white">
         <div>
           <h2 class="text-lg font-semibold">{{ moto.modelo }} - {{ moto.version }}</h2>
           <p class="text-blue-600">Precio: ${{ moto.precio | number : '1.0-0' }}</p>
