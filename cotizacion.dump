@@ -1,0 +1,203 @@
+-- MySQL dump 10.13  Distrib 8.0.18, for Win64 (x86_64)
+--
+-- Host: 127.0.0.1    Database: cotizacion
+-- ------------------------------------------------------
+-- Server version	8.0.43
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `accesorio`
+--
+
+DROP TABLE IF EXISTS `accesorio`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `accesorio` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `descripcion` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `nombre` varchar(255) DEFAULT NULL,
+  `precio` double DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `accesorio`
+--
+
+LOCK TABLES `accesorio` WRITE;
+/*!40000 ALTER TABLE `accesorio` DISABLE KEYS */;
+INSERT INTO `accesorio` VALUES (1,'Con certificación DOT (Department Of Transportation) del Departamento de Tránsito de Estados Unidos. Carcasa de material termoplástico ABS de primera calidad.','Casco Integral',1500),(2,'Abatible de peso ligero, con interior acolchado y cómodo. Mecanismo de liberación de un botón para la barbilla frontal. Carcasa de ABS de alta resistencia con correa ajustable micrométricamente. Cumple satisfactoriamente las normas y estándares de la Certificación DOT.','Casco abatible',1600),(3,'Con acabados en piel suave, diseño elegante. Los materiales proporcionan calidez, comodidad y protección. Sistema Touch para utilizar equipos táctiles, sin necesidad de quitarse los guantes.','Guantes',500),(4,'Unisex, compatible con todo tipo de motocicleta, deportiva, crucero, moto cross, touring, adventure, scooter. Atractivo diseño y materiales de calidad. Protección en hombros, codos y espalda, también son extraíbles.','CHAMARRA C/PROTECCIONES NEGRO-VERDE ',932);
+/*!40000 ALTER TABLE `accesorio` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cliente`
+--
+
+DROP TABLE IF EXISTS `cliente`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `cliente` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `correo` varchar(255) DEFAULT NULL,
+  `nombre` varchar(255) DEFAULT NULL,
+  `telefono` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cliente`
+--
+
+LOCK TABLES `cliente` WRITE;
+/*!40000 ALTER TABLE `cliente` DISABLE KEYS */;
+INSERT INTO `cliente` VALUES (1,'sdfsdf@exaample.com','Jesus','2436346534766'),(2,'sdffdsf','sdfdsf','sdfds'),(3,'bccvb','cvbvcb','bvcbcv'),(4,'','',''),(5,'sdfds','fsf','sdfsd'),(6,'dsad','sadsa','asdsa');
+/*!40000 ALTER TABLE `cliente` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cotizacion`
+--
+
+DROP TABLE IF EXISTS `cotizacion`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `cotizacion` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `costo_accesorios` int DEFAULT NULL,
+  `costo_total` int DEFAULT NULL,
+  `fecha_cotizacion` datetime(6) DEFAULT NULL,
+  `gastos_administrativos` int DEFAULT NULL,
+  `mensualidad` double DEFAULT NULL,
+  `monto_enganche` int DEFAULT NULL,
+  `plazo` int DEFAULT NULL,
+  `precio_coniva` int DEFAULT NULL,
+  `precio_siniva` int DEFAULT NULL,
+  `cliente_id` int DEFAULT NULL,
+  `moto_id` int DEFAULT NULL,
+  `seguro_vehiculo_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKjm3xw2ma78h5q5lbrr2li9l9c` (`cliente_id`),
+  KEY `FKfb1wcir95k28ophgu8asip3gt` (`moto_id`),
+  KEY `FKyucygoffcnbww7sshu6t7ypu` (`seguro_vehiculo_id`),
+  CONSTRAINT `FKfb1wcir95k28ophgu8asip3gt` FOREIGN KEY (`moto_id`) REFERENCES `moto` (`id`),
+  CONSTRAINT `FKjm3xw2ma78h5q5lbrr2li9l9c` FOREIGN KEY (`cliente_id`) REFERENCES `cliente` (`id`),
+  CONSTRAINT `FKyucygoffcnbww7sshu6t7ypu` FOREIGN KEY (`seguro_vehiculo_id`) REFERENCES `seguro` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cotizacion`
+--
+
+LOCK TABLES `cotizacion` WRITE;
+/*!40000 ALTER TABLE `cotizacion` DISABLE KEYS */;
+INSERT INTO `cotizacion` VALUES (9,2000,39104,'2025-10-31 00:00:00.000000',1624,1376.8318988859696,10000,24,32480,28000,1,2,1),(10,2000,39104,'2025-10-31 00:00:00.000000',1624,1376.8318988859696,10000,24,32480,28000,1,2,1),(11,0,37104,'2025-10-31 00:00:00.000000',1624,1579.666713676496,3712,24,32480,28000,2,2,1),(12,1600,38704,'2025-10-31 00:00:00.000000',1624,925.8238893986122,3872,48,32480,28000,2,2,1),(13,1600,38704,'2025-10-31 00:00:00.000000',1624,925.8238893986122,3872,48,32480,28000,2,2,1),(14,0,42630,'2025-10-31 00:00:00.000000',2030,1283.4817988762986,4264,36,40600,35000,3,3,NULL),(15,0,31668,'2025-10-31 00:00:00.000000',1508,757.535284415253,3168,48,30160,26000,4,1,NULL),(16,0,42630,'2025-10-31 00:00:00.000000',2030,1814.9921877631637,4264,24,40600,35000,5,3,NULL),(17,1600,61281,'2025-10-31 00:00:00.000000',2842,0,61281,NULL,56839,48999,6,8,NULL);
+/*!40000 ALTER TABLE `cotizacion` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cotizacion_accesorios`
+--
+
+DROP TABLE IF EXISTS `cotizacion_accesorios`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `cotizacion_accesorios` (
+  `cotizacion_id` int NOT NULL,
+  `accesorios_id` int NOT NULL,
+  PRIMARY KEY (`cotizacion_id`,`accesorios_id`),
+  KEY `UKojse2dx1mlyarjhkr4yincw0l` (`accesorios_id`) USING BTREE,
+  CONSTRAINT `FKiw7ya0hy18tug0c93f5bk9eo6` FOREIGN KEY (`cotizacion_id`) REFERENCES `cotizacion` (`id`),
+  CONSTRAINT `FKjxv01v6qvk9x2qyr1uk941uat` FOREIGN KEY (`accesorios_id`) REFERENCES `accesorio` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cotizacion_accesorios`
+--
+
+LOCK TABLES `cotizacion_accesorios` WRITE;
+/*!40000 ALTER TABLE `cotizacion_accesorios` DISABLE KEYS */;
+INSERT INTO `cotizacion_accesorios` VALUES (10,1),(12,2),(13,2),(17,2),(10,3);
+/*!40000 ALTER TABLE `cotizacion_accesorios` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `moto`
+--
+
+DROP TABLE IF EXISTS `moto`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `moto` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `modelo` varchar(255) DEFAULT NULL,
+  `precio` double DEFAULT NULL,
+  `version` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `moto`
+--
+
+LOCK TABLES `moto` WRITE;
+/*!40000 ALTER TABLE `moto` DISABLE KEYS */;
+INSERT INTO `moto` VALUES (1,'FT125',26000,'GTS 2024'),(2,'FT150',28000,'Negro 2024'),(3,'200z',35000,'Azul'),(4,'250z',40000,'Negro'),(5,'280z',45000,'Gris'),(6,'TC250',45999,'Gris'),(7,'RC200',28999,'Gris'),(8,'TC300',48999,'Negra');
+/*!40000 ALTER TABLE `moto` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `seguro`
+--
+
+DROP TABLE IF EXISTS `seguro`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `seguro` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `descripcion` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `nombre` varchar(255) DEFAULT NULL,
+  `precio` double DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `seguro`
+--
+
+LOCK TABLES `seguro` WRITE;
+/*!40000 ALTER TABLE `seguro` DISABLE KEYS */;
+INSERT INTO `seguro` VALUES (1,'Ayuda a protegerte financieramente si te encuentran culpable en un accidente automovilístico. Puede ayudar a cubrir las facturas médicas de una persona lesionada o las reparaciones del vehículo de alguien.','Responsabilidad civil',3000),(2,'Incluye protección contra robo total,  y responsabilidad civil por daños a terceros en sus bienes o personas. Además, cubre gastos médicos para el conductor y sus acompañantes ','Cobertura básica',5000),(3,'Incluye protección contra robo total, daños materiales por colisión o desastres naturales, y responsabilidad civil por daños a terceros en sus bienes o personas. Además, cubre gastos médicos para el conductor y sus acompañantes, asistencia vial y defensa jurídica. ','Cobertura amplia',10000);
+/*!40000 ALTER TABLE `seguro` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping routines for database 'cotizacion'
+--
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2025-10-31 15:27:44
