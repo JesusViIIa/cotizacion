@@ -111,12 +111,26 @@ export class DetallesCotizacion {
     console.log("Finalizando cotizacion", dto);
     this.listadoService.createCotizacion(dto).subscribe({
       next: response => {
+        this.limpiarFormulario();
         alert("Cotización creada con éxito. ID: " + response.id);
+
       },
       error: err => {
         alert("Error al crear la cotización: " + err.message);
       }
     });
+  }
+
+
+  limpiarFormulario() {
+    this.datosForm.set({
+      nombre: '', 
+      telefono: '',
+      email: ''
+    });
+    this.montoEnganche.set(0);
+    this.selectedPlazo.set(null);
+    this.listadoService.limpiarFormulario();
   }
 
 }

@@ -13,10 +13,24 @@ export class ListadoService {
 
 
  //cotzaciones 
+ private cotizaciones = signal<ICotizacion[]>([]);
+
+  readonly cotizacionesCount = computed(() => this.cotizaciones().length);
+
  createCotizacion(CotizacionDto: CotizacionDto){
     return this.http.post<ICotizacion>(`${this.API_URL}/cotizacion`, CotizacionDto);
 
  }
+
+  getCotizaciones = () => this.cotizaciones.asReadonly();
+  loadCotizaciones() {
+    this.http.get<ICotizacion[]>(`${this.API_URL}/cotizacion`).subscribe({
+      next: data => {
+        this.cotizaciones.set(data);
+      },
+      error: () => {}
+    });
+  }
 
 
 
@@ -86,7 +100,7 @@ export class ListadoService {
 
 
 
-  selectMoto(moto: Moto) {
+  selectMoto(moto: Moto | null) {
     this.selectedMoto.set(moto);
   }
 
@@ -110,6 +124,12 @@ export class ListadoService {
 
 selectAccesorio(accesorio: Accesorio) {
     this.selectedAccesorios.update(list => [...list, accesorio]);
+  }
+
+  limpiarFormulario() {
+    this.selectedMoto.set(null);
+    this.selectedAccesorios.set([]);
+    this.selectedSeguro.set(null);
   }
 
   quitarAccesorio(accesorio: Accesorio) {
