@@ -2,10 +2,11 @@ import { Component, signal, Signal, computed, ChangeDetectionStrategy } from '@a
 import { ListadoService } from '../listado/listado.service';
 import { Accesorio, CotizacionDto, Moto, Seguro } from '../../interfaces/Moto';
 import { DecimalPipe, JsonPipe } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-detalles-cotizacion',
-  imports: [JsonPipe, DecimalPipe],
+  imports: [JsonPipe, DecimalPipe, RouterModule],
   templateUrl: './detalles-cotizacion.html',
   styleUrl: './detalles-cotizacion.css',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -56,7 +57,7 @@ export class DetallesCotizacion {
     return plazo && plazo > 0 ? montoFinanciar * (tasaMensual * Math.pow(1 + tasaMensual, plazo)) / (Math.pow(1 + tasaMensual, plazo) - 1) : 0;
   });
 
-  constructor(public listadoService: ListadoService) {
+  constructor(public listadoService: ListadoService, private router: Router) {
     listadoService.loadSeguros();
     this.selectedMoto = this.listadoService.getSelectedMoto();
     this.selectedAccesorios = this.listadoService.getSelectedAccesorios();
@@ -113,6 +114,7 @@ export class DetallesCotizacion {
       next: response => {
         this.limpiarFormulario();
         alert("Cotización creada con éxito. ID: " + response.id);
+        this.router.navigate(['/historial']);
 
       },
       error: err => {
