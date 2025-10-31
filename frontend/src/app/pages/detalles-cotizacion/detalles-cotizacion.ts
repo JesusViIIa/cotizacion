@@ -97,6 +97,10 @@ export class DetallesCotizacion {
 
 
   finalizarCotizacion() {
+    if (!this.validarDatosObligatorios()) {
+      return;
+    }
+
     const dto:CotizacionDto = {
       idmoto: this.selectedMoto() ? this.selectedMoto()!.id : 0,
       datos: {
@@ -104,7 +108,7 @@ export class DetallesCotizacion {
         correo: this.datosForm().email,
         telefono: this.datosForm().telefono,
       },
-      enganche: this.montoEnganche(),
+      enganche:  this.selectedPlazo  () ? this.montoEnganche() : this.costoTotal(),
       idaccesorios: this.selectedAccesorios() ? this.selectedAccesorios()!.map(a => a.id) : [],
       idseguro: this.selectedSeguro() ? this.selectedSeguro()!.id : null,
       plazomeses: this.selectedPlazo(),
@@ -133,6 +137,20 @@ export class DetallesCotizacion {
     this.montoEnganche.set(0);
     this.selectedPlazo.set(null);
     this.listadoService.limpiarFormulario();
+  }
+
+
+
+  validarDatosObligatorios(): boolean {
+    if (!this.selectedMoto()) {
+      alert("Debe seleccionar una moto.");
+      return false;
+    }
+    if (!this.datosForm().nombre || !this.datosForm().telefono || !this.datosForm().email) {
+      alert("Debe completar todos los datos personales.");
+      return false;
+    }
+    return true;
   }
 
 }
