@@ -131,7 +131,7 @@
       matButton
       color="primary"
       class="w-full"
-      [disabled]="selectedPlazo() && montoEnganche() < montoEngancheMinimo()"
+      [disabled]=" selectedPlazo() && montoEnganche() < montoEngancheMinimo()"
       (click)="finalizarCotizacion()"
     >
       Finalizar Cotización

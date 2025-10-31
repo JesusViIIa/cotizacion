@@ -1,6 +1,6 @@
 import { Component, signal, Signal, computed, ChangeDetectionStrategy } from '@angular/core';
 import { ListadoService } from '../listado/listado.service';
-import { Accesorio, Moto, Seguro } from '../../interfaces/Moto';
+import { Accesorio, CotizacionDto, Moto, Seguro } from '../../interfaces/Moto';
 import { DecimalPipe, JsonPipe } from '@angular/common';
 
 @Component({
@@ -96,7 +96,27 @@ export class DetallesCotizacion {
 
 
   finalizarCotizacion() {
-    alert("Cotización finalizada. Gracias por su preferencia.");
+    const dto:CotizacionDto = {
+      idmoto: this.selectedMoto() ? this.selectedMoto()!.id : 0,
+      datos: {
+        nombre: this.datosForm().nombre,
+        correo: this.datosForm().email,
+        telefono: this.datosForm().telefono,
+      },
+      enganche: this.montoEnganche(),
+      idaccesorios: this.selectedAccesorios() ? this.selectedAccesorios()!.map(a => a.id) : [],
+      idseguro: this.selectedSeguro() ? this.selectedSeguro()!.id : null,
+      plazomeses: this.selectedPlazo(),
+    };
+    console.log("Finalizando cotizacion", dto);
+    this.listadoService.createCotizacion(dto).subscribe({
+      next: response => {
+        alert("Cotización creada con éxito. ID: " + response.id);
+      },
+      error: err => {
+        alert("Error al crear la cotización: " + err.message);
+      }
+    });
   }
 
 }

@@ -14,7 +14,7 @@ export class ListadoService {
 
  //cotzaciones 
  createCotizacion(CotizacionDto: CotizacionDto){
-    return this.http.post<ICotizacion>(`${this.API_URL}/cotizaciones`, CotizacionDto);
+    return this.http.post<ICotizacion>(`${this.API_URL}/cotizacion`, CotizacionDto);
 
  }
 
