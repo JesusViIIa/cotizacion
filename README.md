@@ -6,6 +6,8 @@
 
 En este repositorio se encuentra el dump y el diagrama ER en archivo png
 
+![erdiagram.](https://github.com/JesusViIIa/cotizacion/blob/main/cotizacion.png?raw=true")
+
     # Tablas:
     
     ```
@@ -74,7 +76,6 @@ En este repositorio se encuentra el dump y el diagrama ER en archivo png
       PRIMARY KEY (`id`)
     ) 
     ```
-
 
 
 
